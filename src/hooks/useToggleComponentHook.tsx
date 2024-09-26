@@ -1,8 +1,9 @@
-import {  useContext } from "react";
-import { WrapperContext } from "../context/WrapperContext";
+import { useContext } from "react";
+import { ShowComponentContext } from "../context/WrapperContext";
 
 export const useToggleComponentHook = () => {
-    const { showComponent, setShowComponentHandler } = useContext(WrapperContext);
+  const { showComponent, setShowComponentHandler } =
+    useContext(ShowComponentContext);
 
-    return { showComponent, setShowComponentHandler };
-}
+  return { showComponent, setShowComponentHandler };
+};

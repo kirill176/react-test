@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { WrapperContext } from "../context/WrapperContext";
+import { CounterContext } from "../context/WrapperContext";
 
 export const useCounterHook = () => {
-    const { counter, setCounterHandler } = useContext(WrapperContext);
+  const { counter, setCounterHandler } = useContext(CounterContext);
 
-    return { counter, setCounterHandler };
-}
+  return { counter, setCounterHandler };
+};

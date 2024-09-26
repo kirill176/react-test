@@ -1,57 +1,62 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 import { ListItemType } from "../types";
 
-type WrapperContextType = {
-    counter: number;
-    showComponent: boolean;
-    listItems: ListItemType[];
-    setCounterHandler: () => void;
-    setShowComponentHandler: () => void;
-    setListItemsHandler: (items: ListItemType[]) => void;
-}
+export const CounterContext = createContext({
+  counter: 0,
+  setCounterHandler: () => {},
+});
 
-export const WrapperContext = createContext<WrapperContextType>({
-    counter: 0,
-    showComponent: false,
-    listItems: [],
-    setCounterHandler: () => {},
-    setShowComponentHandler: () => {},
-    setListItemsHandler: () => {},
+export const ShowComponentContext = createContext({
+  showComponent: false,
+  setShowComponentHandler: () => {},
+});
+
+export const ListItemsContext = createContext({
+  listItems: [] as ListItemType[],
+  setListItemsHandler: (items: ListItemType[]) => {},
 });
 
 type Props = {
-    children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[];
 };
 
 export const WrapperProvider = ({ children }: Props) => {
-    const [counter, setCounter] = useState(0);
-    const [showComponent, setShowComponent] = useState(false);
-    const [listItems, setListItems] = useState<ListItemType[]>([]);
+  const [counter, setCounter] = useState(0);
+  const [showComponent, setShowComponent] = useState(false);
+  const [listItems, setListItems] = useState<ListItemType[]>([]);
 
-    const setCounterHandler = () => {
-        setCounter(counter + 1);
-    }
+  const setCounterHandler = useCallback(() => {
+    setCounter((prevCounter) => prevCounter + 1);
+  }, []);
 
-    const setShowComponentHandler = () => {
-        setShowComponent(!showComponent)
-    };
+  const setShowComponentHandler = useCallback(() => {
+    setShowComponent((prevShowComponent) => !prevShowComponent);
+  }, []);
 
-    const setListItemsHandler = (items: ListItemType[]) => {
-        setListItems(items);
-    };
+  const setListItemsHandler = useCallback((items: ListItemType[]) => {
+    setListItems(items);
+  }, []);
 
-    const value = {
-        counter,
-        showComponent,
-        listItems,
-        setCounterHandler,
-        setShowComponentHandler,
-        setListItemsHandler
-    }
+  const counterValue = useMemo(
+    () => ({ counter, setCounterHandler }),
+    [counter, setCounterHandler]
+  );
+  const showComponentValue = useMemo(
+    () => ({ showComponent, setShowComponentHandler }),
+    [showComponent, setShowComponentHandler]
+  );
+  const listItemsValue = useMemo(
+    () => ({ listItems, setListItemsHandler }),
+    [listItems, setListItemsHandler]
+  );
 
-    return (
-        <WrapperContext.Provider value={value}>
-            {children}
-        </WrapperContext.Provider>
-    )
-}
+  return (
+    <CounterContext.Provider value={counterValue}>
+      <ShowComponentContext.Provider value={showComponentValue}>
+        <ListItemsContext.Provider value={listItemsValue}>
+          {children}
+        </ListItemsContext.Provider>
+      </ShowComponentContext.Provider>
+    </CounterContext.Provider>
+  );
+};

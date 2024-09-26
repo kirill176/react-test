@@ -1,11 +1,11 @@
 import { useCounterHook } from "../hooks";
 
 const UpdateCounterButton = () => {
-    console.log(`UpdateCounterButton render`);
+  console.log(`UpdateCounterButton render`);
 
-    const { setCounterHandler } = useCounterHook()
+  const { setCounterHandler } = useCounterHook();
 
-    return <button onClick={setCounterHandler}>Update Counter</button>
+  return <button onClick={setCounterHandler}>Update Counter</button>;
 };
 
 export default UpdateCounterButton;

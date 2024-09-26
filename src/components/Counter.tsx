@@ -1,11 +1,12 @@
-type Props = {
-    counter: number;
-}
+import { FC, memo } from "react";
+import { useCounterHook } from "../hooks";
 
-const Counter = ({ counter }: Props) => {
-    console.log('Counter render');
+const Counter = memo(() => {
+  console.log("Counter render");
 
-    return <h3>Counter value: {counter}</h3>
-};
+  const { counter } = useCounterHook();
+
+  return <h3>Counter value: {counter}</h3>;
+});
 
 export default Counter;

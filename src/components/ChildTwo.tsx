@@ -1,7 +1,9 @@
-const ChildTwo = () => {
-    console.log('Child TWO render');
+import { memo } from "react";
 
-    return <h2>Child Two component</h2>
-};
+const ChildTwo = memo(() => {
+  console.log("Child TWO render");
+
+  return <h2>Child Two component</h2>;
+});
 
 export default ChildTwo;

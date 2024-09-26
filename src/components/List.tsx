@@ -1,16 +1,21 @@
-import ListItem from './ListItem';
-import { useListItemsHook } from "../hooks";
+import ListItem from "./ListItem";
+import { ListItemType } from "../types";
+import { FC, memo } from "react";
 
-const List = () => {
-    console.log('List render');
+interface ListProps {
+  listItems: ListItemType[];
+}
 
-    const { listItems } = useListItemsHook()
+const List: FC<ListProps> = memo(({ listItems }) => {
+  console.log("List render");
 
-    return (
-        <div>
-            {listItems.map(item => <ListItem { ...item }/>)  }
-        </div>
-    );
-};
+  return (
+    <div>
+      {listItems.map((item) => (
+        <ListItem key={item.id} {...item} />
+      ))}
+    </div>
+  );
+});
 
 export default List;
